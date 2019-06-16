@@ -32,19 +32,19 @@ import static com.lenovo.msa.account.model.MqConstant.*;
 @Slf4j
 public class MQConfig {
 
-    @Value("${broker.host:10.62.108.12}")
+    @Value("${broker.host}")
     private String brokerHost;
 
-    @Value("${broker.port:5672}")
+    @Value("${broker.port}")
     private String brokerPort;
 
-    @Value("${broker.username:msa-broker}")
+    @Value("${broker.username}")
     private String brokerUserName;
 
-    @Value("${broker.password:!gY^%643jRW}")
+    @Value("${broker.password}")
     private String brokerPassword;
 
-    @Value("${broker.virtualHost:/MSA}")
+    @Value("${broker.virtualHost}")
     private String brokerVirtualHost;
 
     @Value("${spring.profiles.active}")

@@ -52,11 +52,6 @@
             <version>1.2.56</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.lenovo.liecomm.microservices</groupId>
-            <artifactId>liecomm-microservices-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -64,6 +59,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compilar-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

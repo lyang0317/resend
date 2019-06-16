@@ -3,6 +3,7 @@ package com.lenovo.msa.account.service;
 import com.alibaba.fastjson.JSONObject;
 import com.lenovo.msa.account.model.CommonMessageData;
 import com.lenovo.msa.account.exception.ConsumeException;
+import com.lenovo.msa.account.utils.SpringContextUtils;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.MessageProperties;

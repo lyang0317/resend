@@ -1,10 +1,7 @@
 package com.lenovo.msa.account.service;
 
-import com.lenovo.liecomm.microservices.common.serialization.JsonConvert;
 import com.lenovo.msa.account.model.CommonMessageData;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,16 +27,6 @@ public class ResendProducer {
         if(messageData != null) {
             log.info("This message exchange is [{}], routingKey is [{}], message is [{}]", exchange, routingKey, messageData);
             rabbitResendTemplate.convertAndSend(generate_exchange_name(exchange, env), routingKey, messageData);
-        }
-    }
-
-    public <T>void publishWithMessage(String exchange, String routingKey, T t, ResendProducerHandler<T> rabbitProducerHandler) {
-        CommonMessageData messageData = process(t, rabbitProducerHandler);
-        if(messageData != null) {
-            String str = JsonConvert.serializeObject(messageData);
-            Message message = MessageBuilder.withBody(str.getBytes()).build();
-            log.info("This message exchange is [{}],  routingKey is [{}], message is [{}]", exchange, routingKey, message);
-            rabbitResendTemplate.convertAndSend(generate_exchange_name(exchange, env), routingKey, message);
         }
     }
 

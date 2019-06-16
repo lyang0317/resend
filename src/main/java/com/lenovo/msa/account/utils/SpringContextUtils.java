@@ -1,4 +1,4 @@
-package com.lenovo.msa.account.service;
+package com.lenovo.msa.account.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

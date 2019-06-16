@@ -1,4 +1,4 @@
-package com.lenovo.msa.account.service;
+package com.lenovo.msa.account.config;
 
 import com.google.common.base.Throwables;
 import org.springframework.context.annotation.Bean;
