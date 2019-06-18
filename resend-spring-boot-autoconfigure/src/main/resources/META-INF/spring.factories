@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.lenovo.msa.account.config.MQConfig,\
+com.lenovo.msa.account.config.RestTemplateConfig

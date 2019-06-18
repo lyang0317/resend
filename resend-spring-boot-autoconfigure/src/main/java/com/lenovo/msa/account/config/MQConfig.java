@@ -1,6 +1,11 @@
 package com.lenovo.msa.account.config;
 
 import com.google.common.collect.Maps;
+import com.lenovo.msa.account.dao.MqRetryFailedDao;
+import com.lenovo.msa.account.service.AcctListener;
+import com.lenovo.msa.account.service.PersistenceHandler;
+import com.lenovo.msa.account.service.ResendProducer;
+import com.lenovo.msa.account.utils.SpringContextUtils;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AcknowledgeMode;
@@ -17,8 +22,10 @@ import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
@@ -29,22 +36,23 @@ import java.util.Map;
 import static com.lenovo.msa.account.model.MqConstant.*;
 
 @Configuration
+@Import({MqRetryFailedDao.class, AcctListener.class, PersistenceHandler.class, ResendProducer.class, SpringContextUtils.class})
 @Slf4j
 public class MQConfig {
 
-    @Value("${broker.host}")
+    @Value("${broker.host:localhost}")
     private String brokerHost;
 
-    @Value("${broker.port}")
+    @Value("${broker.port:5672}")
     private String brokerPort;
 
-    @Value("${broker.username}")
+    @Value("${broker.username:root}")
     private String brokerUserName;
 
-    @Value("${broker.password}")
+    @Value("${broker.password:123456}")
     private String brokerPassword;
 
-    @Value("${broker.virtualHost}")
+    @Value("${broker.virtualHost:/}")
     private String brokerVirtualHost;
 
     @Value("${spring.profiles.active}")
