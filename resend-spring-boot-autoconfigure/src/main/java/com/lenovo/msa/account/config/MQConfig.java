@@ -22,7 +22,6 @@ import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -79,7 +78,7 @@ public class MQConfig {
     @Value("${broker.retry.max-ttl:259200000}")
     public Integer retryMaxTtl;
 
-    @Bean
+    @Bean("rabbitResendConnectionFactory")
     public ConnectionFactory connectionFactory() throws IOException {
         CachingConnectionFactory cf = new CachingConnectionFactory(brokerHost, Integer.parseInt(brokerPort));
         cf.setUsername(brokerUserName);
@@ -104,7 +103,7 @@ public class MQConfig {
     }
 
     @Bean("rabbitResendTemplate")
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    public RabbitTemplate rabbitTemplate(@Qualifier("rabbitResendConnectionFactory") ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setConfirmCallback((correlationData, ack, cause) -> {
             if(!ack) {
@@ -117,7 +116,7 @@ public class MQConfig {
 
 
     @Bean
-    public RabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory, @Qualifier("mqRetryOperations") RetryOperationsInterceptor retryOperationsInterceptor) {
+    public RabbitListenerContainerFactory rabbitListenerContainerFactory(@Qualifier("rabbitResendConnectionFactory") ConnectionFactory connectionFactory, @Qualifier("mqRetryOperations") RetryOperationsInterceptor retryOperationsInterceptor) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setConcurrentConsumers(concurrentConsumers);
