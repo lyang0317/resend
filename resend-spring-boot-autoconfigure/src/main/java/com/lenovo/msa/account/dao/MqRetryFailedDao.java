@@ -1,6 +1,5 @@
 package com.lenovo.msa.account.dao;
 
-//import com.lenovo.liecomm.microservices.common.mongodb.MongoHelper;
 import com.lenovo.msa.account.model.MqRetryFailed;
 import com.mongodb.WriteResult;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +25,6 @@ public class MqRetryFailedDao {
         update.set("mq", data.getMq());
         update.set("stackTrace", data.getStackTrace());
         update.set("timestamp", data.getTimestamp());
-//        WriteResult result = MongoHelper.mongoTemplate.upsert(new Query(Criteria.where("uniformId").is(data.getUniformId())),
-//                update, MqRetryFailed.class);
         WriteResult result = mongoTemplate.upsert(new Query(Criteria.where("uniformId").is(data.getUniformId())),
                 update, MqRetryFailed.class);
         return result == null ? 0 : result.getN();
